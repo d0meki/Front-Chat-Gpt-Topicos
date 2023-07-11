@@ -1,0 +1,23 @@
+<div *ngIf="loading" class="container text-center" >
+  <app-spinner></app-spinner>
+</div>
+<table *ngIf="!loading" class="table">
+  <thead>
+    <tr>
+      <th scope="col">UID</th>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Descripcion</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let categoria of categorias">
+      <td>{{categoria.uid}}</td>
+      <td>{{categoria.id}}</td>
+      <td>{{categoria.nombre}}</td>
+      <td>{{categoria.descripcion}}</td>
+
+    </tr>
+  </tbody>
+</table>

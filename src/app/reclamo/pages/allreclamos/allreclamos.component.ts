@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MyReclamo } from 'src/app/interfaces/reclamos';
+import { ApiService } from 'src/app/services/api.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Utils } from 'src/app/utils/util';
 @Component({
@@ -8,7 +9,7 @@ import { Utils } from 'src/app/utils/util';
   styleUrls: ['./allreclamos.component.css']
 })
 export class AllreclamosComponent {
-  showCategorias: boolean = false;
+  loading = false;
   showEstados: boolean = false;
   categoriaSelected: string = "Basura";
   estadSelected: string = "pendiente";
@@ -20,39 +21,51 @@ export class AllreclamosComponent {
   options:any
   categorias:any;
   estados:any;
-  constructor(private firebaseService: FirebaseService) {
+  constructor(private firebaseService: FirebaseService, private apiService: ApiService) {
 
   }
   ngOnInit(): void {
+    this.firebaseService.getAllReclamos().subscribe((reclamos)=>{
+      this.reclamos = reclamos;
+      console.log(this.reclamos);
+    })
+  /*   this.apiService.getReclamos().subscribe((reclamos)=>{
+      this.reclamos = reclamos;
+    }) */
     const util = new Utils();
     this.options = util.getOptions();
-    this.categorias = util.getCategorias();
     this.estados = util.getEstados();
   }
   filtrar() {
+    this.loading = true;
     switch (this.selected) {
       case "1":
         console.log("filtrar por fecha!!!!");
-        this.firebaseService.getReclamoByFecha(this.fechaIni, this.fechaFin).subscribe((data) => {
+       /*  this.firebaseService.getReclamoByFecha(this.fechaIni, this.fechaFin).subscribe((data) => {
           this.reclamos = data;
+          this.loading = false;
+        }); */
+        this.apiService.getReclamoPorFecha(this.fechaIni, this.fechaFin).subscribe((data) => {
+          this.reclamos = data;
+          this.loading = false;
         });
         break;
       case "2":
-        console.log("filtrar por categoria!!!!");
-        console.log(this.categoriaSelected);
-        this.firebaseService.getReclamoByCategoria(this.categoriaSelected).subscribe((data) => {
-          this.reclamos = data;
-          this.showCategorias = false;
-          this.showEstados = false;
-        });
-        break;
-      case "3":
         console.log("filtrar por estado!!!!");
-        console.log(this.estadSelected);
-        this.firebaseService.getReclamoByEstado(this.estadSelected).subscribe((data) => {
+        /* this.firebaseService.getReclamoByEstado(this.estadSelected).subscribe((data) => {
           this.reclamos = data;
-          this.showCategorias = false;
           this.showEstados = false;
+          this.loading = false;
+          const util = new Utils();
+          this.options = util.getOptions();
+        }); */
+        this.apiService.getReclamoPorEstado(this.estadSelected).subscribe((data) => {
+          this.reclamos = data;
+          console.log(this.reclamos);
+          this.showEstados = false;
+          this.loading = false;
+          const util = new Utils();
+          this.options = util.getOptions();
         });
         break;
       default:
@@ -64,15 +77,9 @@ export class AllreclamosComponent {
     this.selected = e.target.value;
     switch (this.selected) {
       case "1":
-        this.showCategorias = false;
         this.showEstados = false;
         break;
       case "2":
-        this.showCategorias = true;
-        this.showEstados = false;
-        break;
-      case "3":
-        this.showCategorias = false;
         this.showEstados = true;
         break;
       default:

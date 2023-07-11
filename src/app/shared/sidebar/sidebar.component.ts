@@ -12,32 +12,50 @@ export class SidebarComponent {
       number: '1',
       name: 'home',
       icon: 'fa-solid fa-house',
-      path: ''
+      path: '/dashboard/bienvenido'
     },
     {
       number: '2',
       name: 'Reclamos',
       icon: 'fa-solid fa-triangle-exclamation',
-      path: ''
+      path: '/dashboard/allreclamos'
     },
     {
       number: '3',
       name: 'Map',
       icon: 'fa-solid fa-map-location-dot',
-      path: ''
+      path: '/dashboard/allreclamosmap'
     },
     {
       number: '4',
       name: 'Chat Gpt',
       icon: 'fa-brands fa-rocketchat',
-      path: ''
+      path: '/dashboard/allreclamosmap'
     },
     {
       number: '5',
+      name: 'Categorias',
+      icon: 'fa-solid fa-list-check',
+      path: '/dashboard/categorias'
+    },
+    {
+      number: '6',
+      name: 'Estados',
+      icon: 'fa-solid fa-arrows-rotate',
+      path: '/dashboard/estados'
+    },
+    {
+      number: '7',
+      name: 'Funcionarios',
+      icon: 'fa-solid fa-users',
+      path: '/dashboard/funcionarios'
+    },
+    {
+      number: '8',
       name: 'Contacto',
       icon: 'fa-solid fa-phone',
-      path: ''
-    }
+      path: '/dashboard/allreclamosmap'
+    },
 
   ]
 }

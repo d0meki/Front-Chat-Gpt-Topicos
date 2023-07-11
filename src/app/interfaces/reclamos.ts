@@ -8,9 +8,13 @@ export interface MyReclamo {
   posicion?:    string[];
   uuid?:        string;
   area?:        string;
+  id?:          string;
+  comentario?:          string;
 }
 
 export interface Fecha {
+  seconds?:     number;
+  nanoseconds?: number;
   _seconds?:     number;
   _nanoseconds?: number;
 }

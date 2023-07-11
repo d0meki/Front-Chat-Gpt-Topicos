@@ -32,7 +32,7 @@ export class FbfuncionarioService {
         this.funcionario = user[0]
         const funcionarioString = JSON.stringify(this.funcionario)
       localStorage.setItem("funcionario", funcionarioString);
-        this.router.navigate(['dashboard/allreclamos']);
+        this.router.navigate(['dashboard/bienvenido']);
       }else{
         console.log("error al intentar iniciar session");
       }

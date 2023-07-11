@@ -17,6 +17,7 @@ import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { RegisterComponent } from './auth/register/register.component';
 import { ReclamoModule } from './reclamo/reclamo.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { ReclamoModule } from './reclamo/reclamo.module';
     ReactiveFormsModule,
     ReclamoModule,
     SharedModule,
-
+    RouterModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

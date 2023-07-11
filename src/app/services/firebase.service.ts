@@ -15,45 +15,79 @@ import {
   query,
   where,
   QueryConstraint,
-  Timestamp
+  Timestamp,
+  DocumentData,
+  updateDoc,
+  orderBy
 } from '@angular/fire/firestore';
 import { MyReclamo } from '../interfaces/reclamos';
 import { Funcionario } from '../interfaces/funcionario';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   private reclamoRef = collection(this.firestore, 'reclamos');
-  funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
-  constructor(private auth: Auth, private firestore: Firestore) { }
+
+  constructor(private auth: Auth, private firestore: Firestore, private router: Router,) { }
 
   getAllReclamos(): Observable<MyReclamo[]> {
-    return collectionData(this.reclamoRef, { idField: 'id' }) as Observable<MyReclamo[]>;
+    const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+    const wa: QueryConstraint[] = [where('categoria', '==', funcionario.area),orderBy('fecha','asc')]
+    const refQuery = query(this.reclamoRef, ...wa)
+    return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
   }
+
   getReclamoByEstado(estado: string): Observable<MyReclamo[]> {
-    const wa: QueryConstraint[] = [where('estado', '==', estado), where('area', '==', this.funcionario.area)]
+    const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+    const wa: QueryConstraint[] = [where('estado', '==', estado), where('categoria', '==', funcionario.area),orderBy('fecha','asc')]
     const refQuery = query(this.reclamoRef, ...wa)
     return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
   }
-  getReclamoByCategoria(categoria: string): Observable<MyReclamo[]> {
-    const wa: QueryConstraint[] = [where('categoria', '==', categoria), where('area', '==', this.funcionario.area)]
-    const refQuery = query(this.reclamoRef, ...wa)
-    return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
-  }
-  getReclamoByFecha(fechaIni: Date, fechaFin: Date):Observable<MyReclamo[]>{
+  // getReclamoByCategoria(categoria: string): Observable<MyReclamo[]> {
+  //   const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+  //   const wa: QueryConstraint[] = [where('categoria', '==', categoria), where('categoria', '==', funcionario.area),orderBy('fecha','asc')]
+  //   const refQuery = query(this.reclamoRef, ...wa)
+  //   return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
+  // }
+  getReclamoByFecha(fechaIni: Date, fechaFin: Date): Observable<MyReclamo[]> {
+    const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
     const ini = new Date(fechaIni);
     const fin = new Date(fechaFin);
-    const wa:QueryConstraint[] = [where('fecha','>=',Timestamp.fromDate(ini)),
-                                  where('fecha','<=',Timestamp.fromDate(fin)),
-                                  where('area', '==', this.funcionario.area)]
-    const refQuery = query(this.reclamoRef,...wa)
+    const wa: QueryConstraint[] = [where('fecha', '>=', Timestamp.fromDate(ini)),
+    where('fecha', '<=', Timestamp.fromDate(fin)),
+    where('categoria', '==', funcionario.area),orderBy('fecha','asc')]
+    const refQuery = query(this.reclamoRef, ...wa)
     return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
+  }
+
+  async getReclamo(id: string): Promise<MyReclamo> {
+    const docRef = doc(this.firestore, 'reclamos', id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data()!;
+  }
+
+  chageEstado(newEstado: string, id: string) {
+    const docRef = doc(this.firestore, 'reclamos', id);
+    const data = { estado: newEstado }
+    updateDoc(docRef, data).then(docRef => {
+      this.router.navigate(['/dashboard/allreclmos']);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+  chageArea(area: string, id: string) {
+    const docRef = doc(this.firestore, 'reclamos', id);
+    const data = { categoria: area }
+    updateDoc(docRef, data).then(docRef => {
+      this.router.navigate(['/dashboard/allreclmos']);
+    }).catch(error => {
+      console.log(error);
+    })
   }
   login({ email, password }: any) {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
-
-
 
   losCurrentUsers() {
     return this.auth.currentUser;
@@ -62,5 +96,4 @@ export class FirebaseService {
     return sendEmailVerification(this.auth.currentUser!);
     // return this.auth.currentUser?.emailVerified
   }
-
 }

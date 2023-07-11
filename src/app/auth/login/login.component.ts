@@ -10,6 +10,7 @@ import { FbfuncionarioService } from '../../services/fbfuncionario.service';
 })
 export class LoginComponent {
   authForm!: FormGroup;
+  loading = false;
   constructor(private fb: FormBuilder, private firebaserSErvice:FirebaseService,private fbFuncionarioService:FbfuncionarioService){
     this.authForm = this.fb.group({
       // email: ['',[Validators.required, Validators.email]],
@@ -22,7 +23,7 @@ export class LoginComponent {
   login(){
     if (this.authForm.valid) {
       console.log("login!!!!");
-
+      this.loading = true;
         this.fbFuncionarioService.loginFuncionario(this.authForm.value);
     }
 
