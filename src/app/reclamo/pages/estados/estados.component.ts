@@ -31,9 +31,14 @@ export class EstadosComponent {
     this.apiService.editarEstados(this.id,this.nombre,this.descripcion);/*.subscribe((res)=>{
       console.log(res);
     })*/
-
     
   }
+
+  eliminarEstado(id:string){
+    this.apiService.eliminarEstado(id);
+  }
+
+
 
 
 }

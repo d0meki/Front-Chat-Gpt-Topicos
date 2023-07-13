@@ -106,6 +106,17 @@ export class ApiService {
      });
   }
 
+  eliminarEstado(documentId:string):void{
+    const data={
+      documentId:documentId
+    }
+    this.http.post<any>(`${this.baseEstadoUrl}/eliminar_estado`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
+
   //FUNCIONARIOS
 
   getFuncionarios(): Observable<Funcionario[]> {
