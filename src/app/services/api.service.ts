@@ -93,8 +93,20 @@ export class ApiService {
   getEstados(): Observable<Estado[]> {
     return this.http.get<Estado[]>(`${this.baseEstadoUrl}/allestados`);
   }
+  editarEstados(documentId:string, nuevoNombre:string, nuevaDescripcion:string): void{
+    const data={
+      documentId:documentId,
+      nuevoNombre:nuevoNombre, 
+      nuevaDescripcion: nuevaDescripcion
+    }
+    this.http.post<any>(`${this.baseEstadoUrl}/editar_estado`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
 
-  //ESTADOS
+  //FUNCIONARIOS
 
   getFuncionarios(): Observable<Funcionario[]> {
     return this.http.get<Funcionario[]>(`${this.baseFuncionarioUrl}/getallfuncionario`);
