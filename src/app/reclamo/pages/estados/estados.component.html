@@ -1,6 +1,7 @@
 <div *ngIf="loading" class="container text-center" >
   <app-spinner></app-spinner>
 </div>
+<button class="btn btn-success" (click)="botonAdd()" nombre="add" id="add">add Estado</button>
 <table *ngIf="!loading" class="table">
   <thead>
     <tr>
@@ -17,8 +18,8 @@
       <td>{{estado.id}}</td>
       <td>{{estado.nombre}}</td>
       <td>{{estado.descripcion}}</td>
-      <td><button (click)="abrirFormularioParaEditar(estado.uid!)">Editar</button></td>
-      <td><button (click)="eliminarEstado(estado.uid!)">Eliminar</button></td>
+      <td><button class="btn btn-info" (click)="abrirFormularioParaEditar(estado.uid!,estado.nombre!,estado.descripcion!)">Editar</button></td>
+      <td><button class="btn btn-danger" (click)="eliminarEstado(estado.uid!)">Eliminar</button></td>
     </tr>
   </tbody>
 </table>
@@ -32,5 +33,17 @@
     <button (click)="guardarCambios()">Guardar</button>
   </form>
 </div>
+<div *ngIf="esconderAdd">
+  <form action="">
+    <input [(ngModel)]="nombre" placeholder="nombre" type="text" name="name" id="nuevoNombre">
+    <br><br>
+    <input [(ngModel)]="descripcion" placeholder="descripcion" type="text" name="descrip" id="nuevaDescripcion">
+    <br><br>
+    <br>
+    <button (click)="guardarNuevoEstado()">Guardar</button>
+  </form>
+</div>
+  
+
 
 

@@ -14,6 +14,7 @@ export class EstadosComponent {
   nombre:string="";
   descripcion:string="";
   formulario:boolean=false;
+  esconderAdd:boolean=false;
   constructor( private apiService: ApiService) {
 
   }
@@ -22,8 +23,10 @@ export class EstadosComponent {
         this.estados = estados;
     })
   }
-  abrirFormularioParaEditar(documentId:string){
+  abrirFormularioParaEditar(documentId:string,nombre:string,descripciom:string){
     this.id=documentId;
+    this.nombre=nombre;
+    this.descripcion= descripciom;
     this.formulario=true;
   }
   guardarCambios(){
@@ -38,6 +41,14 @@ export class EstadosComponent {
     this.apiService.eliminarEstado(id);
   }
 
+  guardarNuevoEstado(){
+    this.apiService.guardarNuevoEstado(this.nombre,this.descripcion);
+  }
+
+  botonAdd(){
+    this.esconderAdd=true;
+
+  }
 
 
 

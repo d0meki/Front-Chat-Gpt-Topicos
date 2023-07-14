@@ -117,6 +117,18 @@ export class ApiService {
      });
   }
 
+  guardarNuevoEstado(nombre:string,descripcion:string):void{
+    const data={
+      nombre:nombre, 
+      descripcion: descripcion
+    }
+    this.http.post<any>(`${this.baseEstadoUrl}/addestado`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
+
   //FUNCIONARIOS
 
   getFuncionarios(): Observable<Funcionario[]> {
