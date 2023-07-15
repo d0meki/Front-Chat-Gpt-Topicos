@@ -87,6 +87,41 @@ export class ApiService {
     return this.http.get<Categoria[]>(`${this.baseCategoriaUrl}/allcategorias`);
   }
 
+  addCategoria(nombre:string,descripcion:string):void{
+    const data={
+      nombre:nombre, 
+      descripcion: descripcion
+    }
+    this.http.post<any>(`${this.baseCategoriaUrl}/addcategoria`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
+
+  editarCategorias(id:string, nuevoNombre:string, nuevaDescripcion:string): void{
+    const data={
+      documentId:id,
+      nuevoNombre:nuevoNombre, 
+      nuevaDescripcion: nuevaDescripcion
+    }
+    this.http.post<any>(`${this.baseCategoriaUrl}/editar_categoria`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
+
+  eliminarCategoria(documentId:string):void{
+    const data={
+      documentId:documentId
+    }
+    this.http.post<any>(`${this.baseCategoriaUrl}/eliminar_categoria`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allestados'])
+     });
+  }
 
   //ESTADOS
 
