@@ -5,7 +5,8 @@ export class Utils{
   estados = [{ id: "1", name: "pendiente" },
   { id: "2", name: "aceptado" },
   { id: "3", name: "rechazado" },
-  { id: "4", name: "en proceso" }]
+  { id: "4", name: "en proceso" },
+  { id: "3", name: "finalizado" }]
 
   Utils(){
 

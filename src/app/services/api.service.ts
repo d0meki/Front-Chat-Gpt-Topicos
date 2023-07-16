@@ -8,6 +8,7 @@ import { Funcionario } from '../interfaces/funcionario';
 import { User } from '../interfaces/user';
 import { Categoria } from '../interfaces/categorias';
 import { Estado } from '../interfaces/estados';
+import { Area } from '../interfaces/areas';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -18,6 +19,7 @@ export class ApiService {
   baseCategoriaUrl: string = 'http://localhost:8080/api/categorias';
   baseEstadoUrl: string = 'http://localhost:8080/api/estados';
   baseUserUrl:string = 'http://localhost:8080/api/users';
+  baseAreasUrl:string = 'http://localhost:8080/api/areas';
   baseFuncionarioUrl:string = 'http://localhost:8080/api/funcionarios';
   constructor(private http: HttpClient, private router: Router) {
 
@@ -161,6 +163,48 @@ export class ApiService {
       console.log(res);
       
       this.router.navigate(['/dashboard/allestados'])
+     });
+  }
+
+  //AREAS
+
+  getAreas(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(`${this.baseCategoriaUrl}/allareas`);
+  }
+
+  addArea(nombre:string,descripcion:string):void{
+    const data={
+      nombre:nombre, 
+      descripcion: descripcion
+    }
+    this.http.post<any>(`${this.baseAreasUrl}/addarea`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allareas'])
+     });
+  }
+
+  editarAreas(id:string, nuevoNombre:string, nuevaDescripcion:string): void{
+    const data={
+      documentId:id,
+      nuevoNombre:nuevoNombre, 
+      nuevaDescripcion: nuevaDescripcion
+    }
+    this.http.post<any>(`${this.baseAreasUrl}/editar_area`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allareas'])
+     });
+  }
+
+  eliminarArea(documentId:string):void{
+    const data={
+      documentId:documentId
+    }
+    this.http.post<any>(`${this.baseAreasUrl}/eliminar_area`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/allareas'])
      });
   }
 
