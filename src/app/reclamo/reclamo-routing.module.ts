@@ -9,6 +9,7 @@ import { BienvenidoComponent } from './pages/bienvenido/bienvenido.component';
 import { CategoriasComponent } from './pages/categorias/categorias.component';
 import { EstadosComponent } from './pages/estados/estados.component';
 import { FuncionariosComponent } from './pages/funcionarios/funcionarios.component';
+import { AreasComponent } from './pages/areas/areas.component';
 
 // const routes: Routes = [];
 
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'categorias', component: CategoriasComponent },
       { path: 'estados', component: EstadosComponent },
       { path: 'funcionarios', component: FuncionariosComponent },
+      { path: 'areas', component: AreasComponent },
        { path: '**', redirectTo: 'bienvenido', pathMatch: 'full' },
     ]
   },

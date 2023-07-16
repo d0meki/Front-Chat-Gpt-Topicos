@@ -52,6 +52,12 @@ export class SidebarComponent {
     },
     {
       number: '8',
+      name: 'Areas',
+      icon: 'fa-solid fa-check',
+      path: '/dashboard/areas'
+    },
+    {
+      number: '9',
       name: 'Contacto',
       icon: 'fa-solid fa-phone',
       path: '/dashboard/allreclamosmap'

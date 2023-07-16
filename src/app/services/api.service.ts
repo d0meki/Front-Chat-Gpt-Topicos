@@ -168,8 +168,8 @@ export class ApiService {
 
   //AREAS
 
-  getAreas(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(`${this.baseCategoriaUrl}/allareas`);
+  getAreas(): Observable<Area[]> {
+    return this.http.get<Area[]>(`${this.baseAreasUrl}/allareas`);
   }
 
   addArea(nombre:string,descripcion:string):void{
