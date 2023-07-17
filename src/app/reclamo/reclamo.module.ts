@@ -16,6 +16,7 @@ import { CategoriasComponent } from './pages/categorias/categorias.component';
 import { FuncionariosComponent } from './pages/funcionarios/funcionarios.component';
 import { BienvenidoComponent } from './pages/bienvenido/bienvenido.component';
 import { AreasComponent } from './pages/areas/areas.component';
+import { DetalleAreaComponent } from './pages/detalle-area/detalle-area.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AreasComponent } from './pages/areas/areas.component';
     CategoriasComponent,
     FuncionariosComponent,
     BienvenidoComponent,
-    AreasComponent
+    AreasComponent,
+    DetalleAreaComponent
   ],
   imports: [
     CommonModule,

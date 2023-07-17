@@ -172,6 +172,9 @@ export class ApiService {
     return this.http.get<Area[]>(`${this.baseAreasUrl}/allareas`);
   }
 
+  getArea(id:string):Observable<Area>{
+    return this.http.get<Area>(`${this.baseAreasUrl}/area-id/${id}`);
+  }
   addArea(nombre:string,descripcion:string):void{
     const data={
       nombre:nombre, 

@@ -10,6 +10,7 @@ import { CategoriasComponent } from './pages/categorias/categorias.component';
 import { EstadosComponent } from './pages/estados/estados.component';
 import { FuncionariosComponent } from './pages/funcionarios/funcionarios.component';
 import { AreasComponent } from './pages/areas/areas.component';
+import { DetalleAreaComponent } from './pages/detalle-area/detalle-area.component';
 
 // const routes: Routes = [];
 
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'allreclamosmap', component: ReclamosmapComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'getreclamo/:id', component: GetreclamoComponent },
+      { path: 'getarea/:id', component: DetalleAreaComponent },
       { path: 'categorias', component: CategoriasComponent },
       { path: 'estados', component: EstadosComponent },
       { path: 'funcionarios', component: FuncionariosComponent },
