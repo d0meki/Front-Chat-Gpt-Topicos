@@ -12,15 +12,14 @@
         <p> no tiene categorias asignadas</p>
       </div>
       <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">+categoria</label>
-          <select  class="form-select" id="inputGroupSelect01">
-            <!-- <option selected>Choose...</option> -->
+          <label class="input-group-text" for="inputGroupSelect01">añadir categoria</label>
+          <select [(ngModel)]="categoria" class="form-select" id="inputGroupSelect01">
             <ng-container *ngFor="let categoria of categorias" >
                 <option value="{{categoria.nombre}}">{{categoria.nombre}}</option>
             </ng-container>
           </select>
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2" >guardar</button>
-        </div>
+          <button (click)="addCategoriaAlArea()" class="btn btn-outline-secondary" type="button" id="button-addon2" >guardar</button>
+      </div>
 
     </div>
-  </div>
+</div>

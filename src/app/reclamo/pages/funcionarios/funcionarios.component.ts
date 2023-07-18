@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Funcionario } from 'src/app/interfaces/funcionario';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ApiService } from 'src/app/services/api.service';
+import { Area } from 'src/app/interfaces/areas';
 
 @Component({
   selector: 'app-funcionarios',
@@ -20,12 +21,17 @@ export class FuncionariosComponent {
   username:string="";
   email:string="";
   password:string="";
+  areas!:Area[]
   constructor( private apiService: ApiService,private firebaseService: FirebaseService) {
 
   }
   ngOnInit(): void {
     this.apiService.getFuncionarios().subscribe((funcionarios)=>{
         this.funcionarios = funcionarios;
+    
+    })
+    this.apiService.getAreas().subscribe((resc)=>{
+      this.areas=resc
     })
 }
   botonAddc(){

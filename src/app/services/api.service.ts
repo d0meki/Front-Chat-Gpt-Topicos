@@ -212,6 +212,19 @@ export class ApiService {
      });
   }
 
+  addCategoriaAlArea(documentId:string,categoria:string){
+    const data = {
+      documentId: documentId,
+      categoria: categoria
+    };
+  
+    this.http.post<any>(`${this.baseAreasUrl}/addcategoria`, data).subscribe((res) => {
+      console.log(res);
+  
+      this.router.navigate(['/dashboard/allareas']);
+    });
+  }
+
   //FUNCIONARIOS
 
   getFuncionarios(): Observable<Funcionario[]> {

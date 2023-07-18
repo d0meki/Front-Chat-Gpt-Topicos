@@ -13,6 +13,7 @@ export class DetalleAreaComponent {
   id!:string
   area!:Area
   categorias!:Categoria[]
+  categoria!:string
   
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
@@ -29,5 +30,9 @@ export class DetalleAreaComponent {
         }
       })
     })
+  }
+
+  addCategoriaAlArea(){
+    this.apiService.addCategoriaAlArea(this.id,this.categoria);
   }
 }
