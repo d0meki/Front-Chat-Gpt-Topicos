@@ -10,6 +10,7 @@ import { Categoria } from '../interfaces/categorias';
 import { Estado } from '../interfaces/estados';
 import { Area } from '../interfaces/areas';
 import { Router } from '@angular/router';
+import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -217,5 +218,46 @@ export class ApiService {
     return this.http.get<Funcionario[]>(`${this.baseFuncionarioUrl}/getallfuncionario`);
   }
 
+  addFuncionario(area:string,nombre:string,telefono:string,username:string,email:string,password:string):void{
+    const data={
+      area:area,
+      nombre:nombre, 
+      telefono: telefono,
+      username:username,
+      email:email,
+      password:password,
+    }
+    this.http.post<any>(`${this.baseFuncionarioUrl}/addFuncionario`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/getallfuncionario'])
+     });
+  }
+  editarFuncionarios(documentId:string,area:string,nombre:string,telefono:string,username:string,email:string,password:string): void{
+    const data={
+      documentId:documentId,
+      area:area, 
+      nombre: nombre,
+      telefono:telefono,
+      username:username,
+      email:email,
+      password:password
+    }
+    this.http.post<any>(`${this.baseFuncionarioUrl}/editarFuncionario`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/getallfuncionario'])
+     });
+  }
+  eliminarFuncionario(documentId:string):void{
+    const data={
+      documentId:documentId
+    }
+    this.http.post<any>(`${this.baseFuncionarioUrl}/eliminarFuncionario`,data).subscribe((res)=>{
+      console.log(res);
+      
+      this.router.navigate(['/dashboard/getallfuncionario'])
+     });
+  }
 
 }

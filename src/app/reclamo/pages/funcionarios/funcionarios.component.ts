@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Funcionario } from 'src/app/interfaces/funcionario';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -10,7 +11,16 @@ import { ApiService } from 'src/app/services/api.service';
 export class FuncionariosComponent {
   loading = false;
   funcionarios!:Funcionario[]
-  constructor( private apiService: ApiService) {
+  documentId:string="";
+  formulario:boolean=false;
+  esconderAdd:boolean=false;
+  area:string="";
+  nombre:string="";
+  telefono:string="";
+  username:string="";
+  email:string="";
+  password:string="";
+  constructor( private apiService: ApiService,private firebaseService: FirebaseService) {
 
   }
   ngOnInit(): void {
@@ -18,4 +28,30 @@ export class FuncionariosComponent {
         this.funcionarios = funcionarios;
     })
 }
+  botonAddc(){
+    this.esconderAdd=true;
+
+  }
+  addFuncionario(): void{
+    this.apiService.addFuncionario(this.area, this.nombre,this.telefono,this.username,this.email,this.password);
+  }
+  abrirFormularioParaEditar(documentId:string,area:string,nombre:string,telefono:string,username:string,email:string,password:string){
+    this.documentId=documentId;
+    this.area=area;
+    this.nombre=nombre;
+    this.telefono= telefono;
+    this.username=username;
+    this.email=email;
+    this.password=password;
+    this.formulario=true;
+  }
+  guardarCambios(){
+    this.apiService.editarFuncionarios(this.documentId,this.area,this.nombre, this.telefono, this.username,this.email,this.password);/*.subscribe((res)=>{
+      console.log(res);
+    })*/
+    
+  }
+  eliminarFuncionario(id:string){
+    this.apiService.eliminarFuncionario(id);
+  }
 }
