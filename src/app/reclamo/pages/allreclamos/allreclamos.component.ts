@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Area } from 'src/app/interfaces/areas';
 import { MyReclamo } from 'src/app/interfaces/reclamos';
 import { ApiService } from 'src/app/services/api.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -21,14 +22,24 @@ export class AllreclamosComponent {
   options:any
   categorias:any;
   estados:any;
+  area!:Area;
   constructor(private firebaseService: FirebaseService, private apiService: ApiService) {
 
   }
   ngOnInit(): void {
-    this.firebaseService.getAllReclamos().subscribe((reclamos)=>{
-      this.reclamos = reclamos;
-      console.log(this.reclamos);
+    this.apiService.getCategoriasArea().subscribe((area)=>{
+      this.area=area;
+      this.firebaseService.getAllReclamos(this.area.categorias!).subscribe((reclamos)=>{
+        this.reclamos = reclamos;
+        console.log(this.reclamos);
+      })
+   /*    console.log(this.area)
+      this.apiService.getReclamos(this.area.categorias!).subscribe((reclamos)=>{
+        this.reclamos = reclamos;
+        console.log(this.reclamos);
+      }) */
     })
+    
   /*   this.apiService.getReclamos().subscribe((reclamos)=>{
       this.reclamos = reclamos;
     }) */
@@ -45,28 +56,29 @@ export class AllreclamosComponent {
           this.reclamos = data;
           this.loading = false;
         }); */
-        this.apiService.getReclamoPorFecha(this.fechaIni, this.fechaFin).subscribe((data) => {
-          this.reclamos = data;
-          this.loading = false;
-        });
+        
+        this.apiService.getCategoriasArea().subscribe((area)=>{
+          this.area=area;
+          this.apiService.getReclamoPorFecha(this.fechaIni, this.fechaFin,this.area.categorias!).subscribe((data) => {
+            this.reclamos = data;
+            this.loading = false;
+          });
+        })
         break;
       case "2":
         console.log("filtrar por estado!!!!");
-        /* this.firebaseService.getReclamoByEstado(this.estadSelected).subscribe((data) => {
-          this.reclamos = data;
-          this.showEstados = false;
-          this.loading = false;
-          const util = new Utils();
-          this.options = util.getOptions();
-        }); */
-        this.apiService.getReclamoPorEstado(this.estadSelected).subscribe((data) => {
-          this.reclamos = data;
-          console.log(this.reclamos);
-          this.showEstados = false;
-          this.loading = false;
-          const util = new Utils();
-          this.options = util.getOptions();
-        });
+        this.apiService.getCategoriasArea().subscribe((area)=>{
+          this.area=area;
+          this.apiService.getReclamoPorEstado(this.estadSelected,this.area.categorias!).subscribe((data) => {
+            this.reclamos = data;
+            console.log(this.reclamos);
+            this.showEstados = false;
+            this.loading = false;
+            const util = new Utils();
+            this.options = util.getOptions();
+          });
+      
+        })
         break;
       default:
         break;

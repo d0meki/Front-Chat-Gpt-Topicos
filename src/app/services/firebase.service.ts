@@ -31,9 +31,9 @@ export class FirebaseService {
 
   constructor(private auth: Auth, private firestore: Firestore, private router: Router,) { }
 
-  getAllReclamos(): Observable<MyReclamo[]> {
-    const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
-    const wa: QueryConstraint[] = [where('categoria', '==', funcionario.area),orderBy('fecha','asc')]
+  getAllReclamos(categorias:string[]): Observable<MyReclamo[]> {
+    // const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+    const wa: QueryConstraint[] = [where('categoria', "in", categorias),orderBy('fecha','asc')]
     const refQuery = query(this.reclamoRef, ...wa)
     return collectionData(refQuery, { idField: 'id' }) as Observable<MyReclamo[]>;
   }

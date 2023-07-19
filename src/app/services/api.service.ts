@@ -22,6 +22,7 @@ export class ApiService {
   baseUserUrl:string = 'http://localhost:8080/api/users';
   baseAreasUrl:string = 'http://localhost:8080/api/areas';
   baseFuncionarioUrl:string = 'http://localhost:8080/api/funcionarios';
+  areas!:Area
   constructor(private http: HttpClient, private router: Router) {
 
   }
@@ -34,26 +35,40 @@ export class ApiService {
   geUser(documentoId:string): Observable<User> {
     return this.http.get<User>(`${this.baseUserUrl}/usuario/${documentoId}`);
   }
-  getReclamos(): Observable<MyReclamo[]> {
+  /* getReclamos(): Observable<MyReclamo[]> {
     const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
     return this.http.get<MyReclamo[]>(`${this.baseReclamoUrl}/${funcionario.area}`);
+  } */
+  getReclamos(categorias:string[]): Observable<MyReclamo[]> {
+    // const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+    return this.http.post<MyReclamo[]>(`${this.baseReclamoUrl}/reclamoArea`,{categorias:categorias});
+
+    
   }
-  getReclamoPorEstado(estado:string):Observable<MyReclamo[]>{
+  getCategoriasArea(): Observable<Area> {
+     const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
+   
+   return this.http.post<Area>(`${this.baseAreasUrl}/getcategoriaArea`,{area:funcionario.area})
+    
+  }
+  getReclamoPorEstado(estado:string, categorias:string[]):Observable<MyReclamo[]>{
     const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
     const body = {
       area: funcionario.area,
-      estado: estado
+      estado: estado,
+      categorias:categorias
     }
     return this.http.post<MyReclamo[]>(`${this.baseReclamoUrl}/reclamos-estado`,body) ;
   }
-  getReclamoPorFecha(fechaIni: Date, fechaFin: Date):Observable<MyReclamo[]>{
+  getReclamoPorFecha(fechaIni: Date, fechaFin: Date,categorias:string[]):Observable<MyReclamo[]>{
     const funcionario:Funcionario = JSON.parse(localStorage.getItem("funcionario")!);
     const ini = new Date(fechaIni);
     const fin = new Date(fechaFin);
     const body = {
       area: funcionario.area,
       fechaIni: ini,
-      fechaFin: fin
+      fechaFin: fin,
+      categorias:categorias
     }
     return this.http.post<MyReclamo[]>(`${this.baseReclamoUrl}/reclamos-fecha`,body) ;
   }

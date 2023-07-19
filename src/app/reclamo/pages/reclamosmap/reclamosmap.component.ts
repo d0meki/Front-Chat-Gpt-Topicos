@@ -5,6 +5,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Utils } from 'src/app/utils/util';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ApiService } from '../../../services/api.service';
+import { Area } from 'src/app/interfaces/areas';
 @Component({
   selector: 'app-reclamosmap',
   templateUrl: './reclamosmap.component.html',
@@ -24,6 +25,7 @@ export class ReclamosmapComponent {
   categorias:any;
   estados:any;
   loading = false;
+  area!:Area;
   //MAP
   center = {
     lat: -17.78469568080407,
@@ -57,11 +59,14 @@ export class ReclamosmapComponent {
           this.reclamos = data;
           this.cargarMarkers();
         }); */
-        this.apiService.getReclamoPorFecha(this.fechaIni, this.fechaFin).subscribe((data) => {
-          this.reclamos = data;
-          this.loading = false;
+        this.apiService.getCategoriasArea().subscribe((area)=>{
+          this.area=area;
+          this.apiService.getReclamoPorFecha(this.fechaIni, this.fechaFin,this.area.categorias!).subscribe((data) => {
+            this.reclamos = data;
+            this.loading = false;
           this.cargarMarkers();
         });
+      })
         break;
       case "2":
         console.log("filtrar por estado!!!!");
@@ -72,7 +77,10 @@ export class ReclamosmapComponent {
           this.cargarMarkers();
           this.showEstados = false;
         }); */
-        this.apiService.getReclamoPorEstado(this.estadSelected).subscribe((data) => {
+        console.log("filtrar por estado!!!!");
+        this.apiService.getCategoriasArea().subscribe((area)=>{
+          this.area=area;
+        this.apiService.getReclamoPorEstado(this.estadSelected,this.area.categorias!).subscribe((data) => {
           this.reclamos = data;
           console.log(this.reclamos);
           this.loading = false;
@@ -81,6 +89,7 @@ export class ReclamosmapComponent {
           this.cargarMarkers();
           this.showEstados = false;
         });
+      })
         break;
       default:
         break;
